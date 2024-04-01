@@ -9,11 +9,15 @@
     "preview": "vite preview"
   },
   "devDependencies": {
-    "@types/p5": "^1.7.6",
     "typescript": "^5.2.2",
     "vite": "^5.0.8"
   },
+  "main": "index.js",
+  "author": "",
+  "license": "ISC",
+  "description": "",
   "dependencies": {
-    "p5": "^1.9.0"
+    "gsap": "^3.12.5",
+    "split-type": "^0.3.4"
   }
 }

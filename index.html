@@ -5,6 +5,8 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
+
 </head>
 
 <body>
@@ -16,47 +18,52 @@
           <h1>Explore Tweak Share</h1>
         </div>
       </section>
-
       <div class="scroll">
         <img class="arrow" src="img/down-arrow.png" alt="Arrow pointing down">
       </div>
   </div>
+  <section class="pitch ex">
+    <div class="content">
+      <h2>Explore an algorithm </h2>
+      <dotlottie-player src="https://lottie.host/6a28687a-1ff8-4a18-8df4-15345e89b29b/F2NofQKk3d.json"
+        background="transparent" speed="1" style="width: 300px; height: 300px" direction="1" playMode="normal" loop
+        autoplay></dotlottie-player>
+    </div>
+  </section>
+  <section class="pitch tw">
+    <div class="content">
+      <h2>Tweak the parameters</h2>
+      <dotlottie-player src="https://lottie.host/ee651d89-52c0-4ca6-923f-b2e1f91e9252/LGmUuei7gB.json"
+        background="transparent" speed="1" style="width: 280px; height: 280px" direction="1" playMode="normal" loop
+        autoplay></dotlottie-player>
+    </div>
+  </section>
+  <section class="pitch sh">
+    <div class="content">
+      <h2>Share your creation</h2>
+      <dotlottie-player src="https://lottie.host/6f549fc9-866d-435f-a10e-cfe5a5addd9d/6MpOEEbsGJ.json"
+        background="transparent" speed="1" style="width: 300px; height: 300px" direction="1" playMode="bounce" loop
+        autoplay></dotlottie-player>
+    </div>
+  </section>
+  <section class="ready">
+    <h2>Ready to try it out?</h2>
+    <div class="button-container">
+      <div class="go">
+        <a href="/create/">
+          <button class="to-art">Create some art</button>
+        </a>
+      </div>
 
-
-<div class="explore">
-
-  <section class="pitch">
-      <h2><span>Explore</span> an algorithm </h2>
-      <p>Dive into the art of algorithmic generation. Discover its capabilities and let the patterns emerge as you
-        interact with the system.</p>
+      <div class="go">
+        <a href="/about/">
+          <button class="to-art">Find out more</button>
+        </a>
+      </div>
+    </div>
 
   </section>
-
-
-  <section class="pitch">
-    <h2>Tweak the parameters</h2>
-    <p>Adjust the parameters to influence the outcome. Each change you make refines the artwork, offering a new
-      perspective with every iteration. Experience the power of creative coding in shaping generative art.</p>
-  </section>
-
-
-  <section class="pitch">
-    <h2>Share your creation</h2>
-    <p>Your creations are a reflection of personal expression within a digital framework. Share them on IPFS, where they
-      will be part of a global, persistent art space..</p>
-  </section>
-</div>
-
-  <div class="go">
-    <a href="/create/">
-      <button class="to-art">Create some art</button>
-    </a>
-  </div>
-  <section id="contact">
-    <h2>Get in touch</h2>
-    <h3>Email</h3>
-    <p>tanguy.clavareau@student.odisee.be</p>
-  </section>
+  <footer> All rights reserved © 2024 Tanguy Clavareau</footer>
   </main>
   <script type="module" src="homepage/home.ts"></script>
 </body>

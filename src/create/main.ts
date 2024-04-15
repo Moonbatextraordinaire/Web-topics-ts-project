@@ -4,7 +4,6 @@ import { Canvas } from "./Drawing/Canvas";
 import { Noise } from "./Math/Noise";
 import { nav } from "../components/nav";
 import { setupMenuAndAnimation } from "../menu/menu";
-import { palette } from "./Palettes/palette";
 import "./create.css";
 import { NoiseFunction3D, createNoise3D } from "simplex-noise";
 let c: Canvas;
@@ -56,7 +55,7 @@ function setup() {
   console.log(modIncX);
   console.log(segments);
   offset = c.height / 10;
-  p.background(palette[0].params[0].value);
+  p.background(palettes[colorSelect][0]);
   p.strokeWeight(10);
   for (let i = 0; i < segments.length; i++) {
     colors.push(Math.floor(rand(1, palettes[colorSelect].length)));
@@ -92,8 +91,17 @@ function draw() {
     let ctrlBY = y + offset / 2;
     //p.line(startX, startY, endX, endY);
     p.stroke(palettes[colorSelect][colors[i]]);
-    p.beginShape(vertices);
-    //p.bezier( startX, startY, ctrlAX - 50, ctrlAY + noise(x, y, t / 1000) * offset, ctrlBX + 50, ctrlBY, endX, endY );
+    //p.beginShape(vertices);
+    p.bezier(
+      startX,
+      startY,
+      ctrlAX - 50,
+      ctrlAY + noise(x, y, t / 1000) * offset,
+      ctrlBX + 50,
+      ctrlBY,
+      endX,
+      endY
+    );
     x += segments[i];
   }
   t++;

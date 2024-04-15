@@ -40,24 +40,24 @@ The canvas class serves to create a canvas within the HTML document. It is, as i
 
 The renderer class is used to "draw" on the canvas. It can be seen as a hand holding a pen. Movements but also colors and sizes can be altered. Within it are different methods to draw shapes or text, change the color of what is being drawn and move where items are being drawn.
 
-## Maths
+### Maths
 
 Maths plays a pivotal role in creative coding. All coordinates, transformations, rotations, etc... are done using various branches of maths (Vectors, trigonometry, matrices, etc...).
 
 For this project I chose to write a Vector class, a noise class and a rectangle packing class. The class LinkHashing in the repo isn't used for this project, but serves to create a unique hash that can then be used elsewhere as a seed for random generators.
 
-### Noise
+#### Noise
 
 The noise class is used to create [simplex](https://en.wikipedia.org/wiki/Simplex_noise) and [perlin](https://en.wikipedia.org/wiki/Perlin_noise).
 Noise is used to create smooth random where the following values generated are closely linked to the previous ones. The class is limited to 2 dimentional noise fields. For higher dimensions a library was used.
 
-### RecPack
+#### RecPack
 
 The reckPack class is used to divide a any segment into a subdivision of segments following the [fibonacci sequence](https://en.wikipedia.org/wiki/Fibonacci_sequence). This is because the relationship of two consecutive numbers approximates the golden ratio. In turn, any segment can be divided into a harmonious sub segmentation, creating a random but also pleasing division.
 
 The algorithm uses recursion, so be mindful to not try and divide incredibly large segments.
 
-### Vector
+#### Vector
 
 [Vectors](<https://en.wikipedia.org/wiki/Vector_(mathematics_and_physics)>) are the foundation for coordinates in 2D and 3D spaces. This class was adapted from the one found on the p5js repo with a couple of improvements for certain calculations specific to this project.
 

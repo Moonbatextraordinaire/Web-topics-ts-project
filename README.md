@@ -16,6 +16,9 @@ The topics that are implemented are:
 - Web animations
 - lottie files
 
+My aim was to make a website were the users could interact with some algorithmic art and then upload their creations onto the IPFS.
+I unfortunately couldn't achieve the IPFS implementation for this project.
+
 All libraries were installed with npm.
 
 Additionally, the project was written in Typescript instead of pure javascript. This was chosen to add type safety (primarily for the algorithmic art).
@@ -75,6 +78,6 @@ As GSAP has paying plugins, I used the [SplitType](https://github.com/lukePeavey
 
 I originally wrote different paragraphs to describe the different aspects of my website. After some time, I opted to used animated SVGs as they conveyed the same message without risking to bore the user.
 
-The files used here were taken from free files on [lottifiles](https://lottiefiles.com/) and I then tweaked them to my needs (mostly changing color palettes).
+The files used here were taken from free files on [lottifiles](https://lottiefiles.com/) and I then tweaked them to my needs (mostly changing color palettes). Some of the modified files can be seen [here](https://app.lottiefiles.com/project/31500af7-a3c4-4d00-af54-6bc8bc5772ee)
 
 Using the lottie files cdn proved to be problematic, so I opted for an npm library which made it work flawlessy in my testing environements.

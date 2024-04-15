@@ -2,8 +2,7 @@ export const nav = `
     <nav class="navbar">
         <div class="logo">
             <a href="/">
-                <img src="/img/logo.png" alt="Logo of a stylised letter T">
-
+                T
             </a>
         </div>
         <div class="menu-toggle">
@@ -17,9 +16,7 @@ export const nav = `
                 <div class="col flex">
                     <ul>
                         <li><a href="/">Home</a></li>
-                        <li><a href="#about">About</a></li>
-                        <li><a href="/create/">Create</a></li>
-                        <li><a href="#contact">Contact</a></li>
+                        <li><a href="/src/create/">Create</a></li>
                     </ul>
                 </div>
             </div>

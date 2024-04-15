@@ -1,27 +1,31 @@
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import SplitType from "split-type";
-import "/css/style.css";
 import { nav } from "../components/nav";
 import { CSSRulePlugin } from "gsap/CSSRulePlugin";
 import { setupMenuAndAnimation } from "../menu/menu";
+import SplitType from "split-type";
+import "/src/css/style.css";
+import "@lottiefiles/lottie-player";
 
 (document.querySelector("header") as HTMLDivElement).innerHTML = nav;
-
 gsap.registerPlugin(ScrollTrigger);
 gsap.registerPlugin(CSSRulePlugin);
+
 const defaultBackground = "#f9f0de";
 const defaultTextColor = "#1d1d1b";
 const palette = ["#1d1d1b", "#f9f0de"];
 const textPalette = ["#f9f0de", "#1d1d1b"];
 const sectionClasses = [".ex", ".tw", ".sh"];
+
 const introText: SplitType = new SplitType("h1", { types: "words" });
 const words: any = introText.words;
 const timeLine = gsap.timeline();
+
 setupMenuAndAnimation(nav);
+
 contentAnimation();
 
-function contentAnimation() {
+function contentAnimation(): void {
   words.forEach((word) => {
     timeLine.fromTo(
       word,
@@ -73,8 +77,10 @@ function contentAnimation() {
         start: "center center",
         end: "bottom-=20% center",
         pin: true,
-        markers: true,
-        onEnter: () => changeSectionColor(index),
+        onEnter: () => {
+          changeSectionColor(index);
+          fadeIn(index);
+        },
         onLeave: () => fadeOut(index),
         onEnterBack: () => {
           fadeIn(index);
@@ -84,20 +90,24 @@ function contentAnimation() {
       },
     });
   });
-  function fadeOut(index) {
+  function fadeOut(index: number) {
     gsap.to(sectionClasses[index], { opacity: 0 });
-    gsap.to("dotlottie-player", { opacity: 0 });
+    gsap.to("lottie-player", { opacity: 0 });
   }
-  function fadeIn(index) {
+  function fadeIn(index: number) {
     gsap.to(sectionClasses[index], { opacity: 1 });
-    gsap.to("dotlottie-player", { opacity: 1 });
+    gsap.to("lottie-player", { opacity: 1 });
   }
-  function changeSectionColor(index) {
+  function changeSectionColor(index: number) {
     gsap.to("body", {
       background: palette[index % 2],
       color: textPalette[index % 2],
       duration: 0.5,
     });
+    gsap.to("img", { filter: `invert(${(index + 1) % 2})` });
+    //gsap.to(".top", { background: palette[(index + 1) % 2] });
+    //gsap.to(".bot", { background: palette[(index + 1) % 2] });
+
     gsap.to("dotlottie-player", { opacity: 1 });
   }
 
@@ -107,13 +117,21 @@ function contentAnimation() {
       color: defaultTextColor,
       duration: 0.5,
     });
+    gsap.to("img", { filter: "invert(0)" });
   }
   timeLine.to(".ready", {
     scrollTrigger: {
       trigger: ".ready",
       start: "top top",
       end: "bottom center",
-      onEnter: () => changeSectionColor(1),
+      onEnter: () => {
+        changeSectionColor(1);
+        gsap.fromTo(
+          ".to-art",
+          { y: 100, opacity: 0 },
+          { y: 0, opacity: 1, stagger: 0.7, duration: 1, ease: "power4.out" }
+        );
+      },
     },
   });
 }

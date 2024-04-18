@@ -6,17 +6,19 @@ import { nav } from "../components/nav";
 import { setupMenuAndAnimation } from "../menu/menu";
 import "./create.css";
 import { NoiseFunction3D, createNoise3D } from "simplex-noise";
+import { Console } from "console";
 let c: Canvas;
 let p: Renderer;
 let t: number = 0;
+let val: number = 0;
 const colors: number[] = [];
 const modIncX: number[] = [];
 const modIncY: number[] = [];
 const palettes = [
-  ["#1c2137", "#284555", "#de4639", "#db6528", "#f5ad0d"],
+  ["#f9f0de", "#1c2137", "#284555", "#de4639", "#db6528", "#f5ad0d"],
   [
-    "#d7312e",
     "#f9f0de",
+    "#d7312e",
     "#f0ac00",
     "#0c7e45",
     "#2c52a0",
@@ -24,11 +26,12 @@ const palettes = [
     "#5ec5ee",
     "#1d1d1b",
   ],
-  ["#d2b0a3", "#efd1ae", "#f39b00", "#ec6907", "#2c52a0", "#1d1d1b", "#f9f0de"],
-  ["#412147", "#7b2776", "#bb2a17", "#e94e23", "#f49700", "#bd8b5f", "#f9f0de"],
+  ["#f9f0de", "#d2b0a3", "#efd1ae", "#f39b00", "#ec6907", "#2c52a0", "#1d1d1b"],
+  ["#f9f0de", "#412147", "#7b2776", "#bb2a17", "#e94e23", "#f49700", "#bd8b5f"],
+  ["#f299a5", "#084698", "#1a86c8", "#74afe0", "#a0d6da", "#f8f9f2"],
 ];
 let colorSelect = rand(palettes.length);
-let segments: number[] = [];
+const segments: number[][] = [];
 const rows: number[] = [];
 let noise = createNoise3D();
 let time: number;
@@ -46,64 +49,62 @@ function setup() {
   c = new Canvas(width, height);
   p = new Renderer(c.createCanvas());
   time = 0;
-  let amount = 10;
+  let amount = 55;
+  // Make an amount of length wise segments rows.
   for (let i = 0; i < amount; i++) {
-    modIncX.push(Math.random() / 10);
-    modIncY.push(Math.random() / 10);
-    segments = fibPack(89, segments);
+    let segs: number[] = [];
+    segs = fibPack(233, segs);
+    segments.push(segs);
   }
-  console.log(modIncX);
-  console.log(segments);
-  offset = c.height / 10;
-  p.background(palettes[colorSelect][0]);
-  p.strokeWeight(10);
-  for (let i = 0; i < segments.length; i++) {
-    colors.push(Math.floor(rand(1, palettes[colorSelect].length)));
-  }
+  offset = c.height / amount;
   p.noFill();
-}
 
+  // attribute color to each segment by going through each line and then its segments
+  for (let i = 0; i < segments.length; i++) {
+    for (let j = 0; j < segments[i].length; j++) {
+      colors.push(Math.floor(Math.random() * palettes[colorSelect].length));
+    }
+  }
+  // Make an array that will describe the "wobbliness" of the horizontal line in each of the segments
+  let shapeWobble: number[] = [];
+  let count = 0;
+
+  // to fill the array of the horizontal segments' wobbliness, we need to go to each line, then each segment and then calculate the details for each of those segments.
+  console.log(segments);
+  for (let i = 0; i < segments.length; i++) {
+    for (let j = 0; j < segments[i].length; j++) {}
+  }
+  for (let j = 0; j < segments.length; j++) {
+    for (let i = 0; i < segments[j].length; i += 1) {
+      shapeWobble.push(map(i, 0, segments[j][i], 0, 233));
+      shapeWobble.push(map(noise(j, i, count), -1, 1, -offset, offset));
+      count++;
+    }
+  }
+  console.log(shapeWobble);
+  p.strokeWeight(0.1);
+}
 function draw() {
+  //p.background(palettes[colorSelect][0]);
+
   let x = 0;
   let y = 0;
-  p.background(palettes[colorSelect][0]);
+
   for (let i = 0; i < segments.length; i++) {
-    if (x % 89 === 0 && i != 0) {
-      y += offset;
-      x = 0;
+    if (i !== 0) y += offset;
+    x = 0;
+    for (let j = 0; j < segments[i].length; j++) {
+      p.stroke(palettes[colorSelect][colors[j]]);
+      p.push();
+      p.translate(map(x, 0, 233, 0, c.width), y);
+      p.rotate(map(noise(i, j, t / 1000000), 0, 1, -2, 2));
+      shape(segments[i][j], x, y, t);
+      p.pop();
+      t++;
+      x += segments[i][j] + t / 1000000;
     }
-    let vertices = [];
-    for (let j = 0; j < segments[i]; j++) {
-      vertices.push(x + map(j, 0, segments[i], 0, c.width));
-      vertices.push(y + noise(x, y, t / 1000) * offset);
-      p.point(
-        map(j, 0, segments[i], 0, c.width),
-        noise(x, y, t / 1000) * offset
-      );
-    }
-    let startX = map(x, 0, 89, 0, c.width) + 2;
-    let startY = y + offset / 2;
-    let endX = map(x + segments[i], 0, 89, 0, c.width) - 2;
-    let endY = y + offset / 2;
-    let ctrlAX = map(x + segments[i] / 2, 0, 89, 0, c.width);
-    let ctrlBX = map(x + segments[i] / 2, 0, 89, 0, c.width);
-    let ctrlAY = y + offset / 2;
-    let ctrlBY = y + offset / 2;
-    //p.line(startX, startY, endX, endY);
-    p.stroke(palettes[colorSelect][colors[i]]);
-    //p.beginShape(vertices);
-    p.bezier(
-      startX,
-      startY,
-      ctrlAX - 50,
-      ctrlAY + noise(x, y, t / 1000) * offset,
-      ctrlBX + 50,
-      ctrlBY,
-      endX,
-      endY
-    );
-    x += segments[i];
   }
+
   t++;
   window.requestAnimationFrame(draw);
 }
@@ -127,4 +128,21 @@ function rand(max: number = 1, min: number = 0): number {
     max = temp;
   }
   return Math.floor(Math.random() * (max - min) + min);
+}
+function shape(segment: number, x: number, y: number, count: number) {
+  let shapeWobble: number[] = [];
+  p.beginShape();
+  for (let i = 0; i < map(segment, 0, 233, 0, c.width); i += 1) {
+    shapeWobble.push(i);
+    shapeWobble.push(
+      map(noise(i / 20, y, count / 100000), -1, 1, -offset, offset)
+    );
+    p.vertex(i, map(noise(i / 20, y, count / 100000), -1, 1, -offset, offset));
+  }
+  p.vertex(shapeWobble[shapeWobble.length], offset / 2);
+  for (let i = shapeWobble.length; i >= 0; i -= 2) {
+    p.vertex(shapeWobble[i], shapeWobble[i - 1] + offset / 2);
+  }
+  p.endShape();
+  y += shapeWobble[shapeWobble.length] + offset;
 }

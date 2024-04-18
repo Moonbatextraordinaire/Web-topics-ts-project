@@ -198,14 +198,22 @@ export class Renderer {
     );
     this.closeShape();
   }
-  beginShape(vertices: number[]) {
+  beginShape() {
     this.renderer.beginPath();
-    this.renderer.moveTo(vertices[0], vertices[1]);
-    for (let i = 2; i < vertices.length; i++) {
-      this.renderer.lineTo(vertices[i], vertices[i + 1]);
-    }
+    this.renderer.moveTo(0, 0);
+  }
+  vertex(x: number, y: number) {
+    this.renderer.lineTo(x, y);
+  }
+  endShape() {
     this.renderer.closePath();
     this.closeShape();
+  }
+  scale(x: number, y: number) {
+    this.renderer.scale(x, y);
+  }
+  rotate(angle: number) {
+    this.renderer.rotate(angle);
   }
   /// /// /// /// TO DEBUG /// /// /// ///
   /**
